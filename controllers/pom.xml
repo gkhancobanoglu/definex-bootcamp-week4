@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>dev.patika.definexjavaspringbootbootcamp2025.hw4</groupId>
+        <artifactId>hw4</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    
+    <artifactId>controllers</artifactId>
+    <packaging>jar</packaging>
+    
+    <properties>
+    	<hw4.entities.version>1.0.0</hw4.entities.version>
+    	<hw4.services.version>1.0.0</hw4.services.version>
+    </properties>
+    
+    <dependencies>
+    	<dependency>
+    		<groupId>dev.patika.definexjavaspringbootbootcamp2025.hw4</groupId>
+        	<artifactId>entities</artifactId>
+        	<version>${hw4.entities.version}</version>
+    	</dependency>
+    	<dependency>
+    		<groupId>dev.patika.definexjavaspringbootbootcamp2025.hw4</groupId>
+        	<artifactId>services</artifactId>
+        	<version>${hw4.services.version}</version>
+    	</dependency>
+    </dependencies>
+    <build>
+	    <plugins>
+		    <plugin>
+			    <groupId>org.jacoco</groupId>
+			    <artifactId>jacoco-maven-plugin</artifactId>
+			    <version>0.8.12</version>
+			    <configuration>
+		            <exclude>**/*Config.*</exclude>
+		            <exclude>**/*Application.*</exclude>
+		            <exclude>**/*Exception.*</exclude>
+		            <exclude>**/generated/**</exclude>
+			    </configuration>
+			    <executions>
+				    <execution>
+	            		<id>report</id>
+			            <phase>verify</phase>
+			            <goals>
+			                <goal>report</goal>
+			            </goals>
+			        </execution>
+			        <execution>
+			            <id>prepare-agent</id>
+			            <goals>
+			                <goal>prepare-agent</goal>
+			            </goals>
+			        </execution>
+			        <execution>
+			            <id>coverage-check</id>
+			            <phase>verify</phase>
+			            <goals>
+			                <goal>check</goal>
+			            </goals>
+			            <configuration>
+			                <rules>
+			                    <rule>
+			                        <element>BUNDLE</element>
+			                        <limits>
+			                            <limit>
+			                                <counter>LINE</counter>
+			                                <value>COVEREDRATIO</value>
+			                                <minimum>0.80</minimum>
+			                            </limit>
+			                        </limits>
+			                    </rule>
+			                </rules>
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>
+	    </plugins>
+    </build>
+</project>
+
+   

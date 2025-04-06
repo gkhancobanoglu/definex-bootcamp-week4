@@ -1,0 +1,45 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup Java 21
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+    - name: mvn install check
+      id: mvn-install-check
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: mvn install check
+        setup-command: ''
+        command: mvn install -DskipTests
+        timeout: 10
+        max-score: 10
+    - name: mvn test check
+      id: mvn-test-check
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: mvn verify check
+        setup-command: ''
+        command: mvn verify
+        timeout: 30
+        max-score: 90
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        MVN-INSTALL-CHECK_RESULTS: "${{steps.mvn-install-check.outputs.result}}"
+        MVN-TEST-CHECK_RESULTS: "${{steps.mvn-test-check.outputs.result}}"
+      with:
+        runners: mvn-install-check,mvn-test-check
